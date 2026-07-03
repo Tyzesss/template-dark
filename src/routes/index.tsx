@@ -332,28 +332,28 @@ function ContactCard({
     <div
       ref={ref}
       className={cn(
-        "card-glass flex min-w-0 items-center text-left transition-smooth md:hover:-translate-y-0.5 md:hover:border-brand-cyan/20",
+        "panel-glass flex min-w-0 items-center text-left transition-smooth md:hover:border-white/15",
         stretch ? "h-full flex-1" : "h-full",
-        compact ? "gap-3 rounded-lg p-3.5" : "gap-4 rounded-xl p-4",
-        isPhone && "border-brand-cyan/15 bg-brand-cyan/[0.04]",
+        compact ? "gap-3 rounded-xl p-3.5" : "gap-4 rounded-2xl p-4",
+        isPhone && "border-brand-cyan/20",
         revealClass,
       )}
       style={{ transitionDelay: `${index * 80}ms` }}
     >
       <div
         className={cn(
-          "flex shrink-0 items-center justify-center rounded-full border border-white/8 bg-white/6 text-brand-cyan transition-smooth group-hover:scale-105",
+          "flex shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-brand-cyan transition-smooth group-hover:scale-105",
           compact ? "h-10 w-10" : "h-11 w-11",
-          isPhone && "border-brand-cyan/20 bg-brand-cyan/8",
+          isPhone && "border-brand-cyan/25 bg-brand-cyan/10",
         )}
       >
         <Icon className={compact ? "h-[1.125rem] w-[1.125rem]" : "h-5 w-5"} />
       </div>
       <div className="min-w-0">
-        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{c.title}</p>
+        <p className="text-xs font-medium uppercase tracking-wide text-white/55">{c.title}</p>
         <p
           className={cn(
-            "mt-0.5 font-semibold text-foreground leading-snug",
+            "mt-0.5 font-semibold text-white leading-snug",
             compact ? "text-base" : "text-sm",
             c.type === "email" ? "break-all leading-snug" : "break-words",
           )}
@@ -630,14 +630,6 @@ function Index() {
           aria-hidden
         />
         <div className="relative mx-auto max-w-6xl">
-          <Reveal className="mb-8 hidden text-center md:mb-10 md:block">
-            <p className="section-eyebrow">Kontakt</p>
-            <h2 className="mt-1.5 text-4xl font-bold tracking-tight text-foreground">Skontaktuj się z nami</h2>
-            <p className="mt-1.5 text-base leading-relaxed text-muted-foreground">
-              Zadzwoń, napisz na e-mail lub odwiedź nas — jesteśmy czynni Pn–Sob 8:00–18:00.
-            </p>
-          </Reveal>
-
           <div id="wycena" className="scroll-mt-24">
             <div className="panel-glass rounded-2xl p-5 md:hidden">
               <Reveal className="text-center">
@@ -665,21 +657,29 @@ function Index() {
               </div>
             </div>
 
-            <div className="mx-auto hidden w-full max-w-4xl md:grid md:grid-cols-[minmax(0,26rem)_minmax(0,24rem)] md:items-stretch md:justify-center md:gap-7 lg:gap-8">
-              <Reveal className="h-full">
-                <div className="panel-glass flex h-full flex-col rounded-2xl p-5 text-left">
+            <div className="panel-glass mx-auto hidden max-w-4xl rounded-2xl p-5 md:block md:p-8 lg:p-10">
+              <Reveal className="text-center">
+                <p className="section-eyebrow">Kontakt</p>
+                <h2 className="mt-1.5 text-4xl font-bold tracking-tight text-white">Skontaktuj się z nami</h2>
+                <p className="mt-1.5 text-base leading-relaxed text-white/75">
+                  Zadzwoń, napisz na e-mail lub odwiedź nas — jesteśmy czynni Pn–Sob 8:00–18:00.
+                </p>
+              </Reveal>
+
+              <div className="mx-auto mt-8 grid w-full md:grid-cols-[minmax(0,26rem)_minmax(0,24rem)] md:items-stretch md:justify-center md:gap-7 lg:mt-10 lg:gap-8">
+                <Reveal className="h-full text-left">
                   <p className="text-sm font-semibold text-white">Darmowa wycena</p>
                   <p className="mt-1 text-xs text-white/75">Zostaw numer — oddzwonimy bez zobowiązań.</p>
                   <div className="mt-4 flex flex-1 flex-col">
                     <LeadForm />
                   </div>
-                </div>
-              </Reveal>
+                </Reveal>
 
-              <div className="flex h-full min-h-0 flex-col gap-3">
-                {contactCards.map((c, i) => (
-                  <ContactCard key={c.title} c={c} index={i} compact stretch />
-                ))}
+                <div className="flex h-full min-h-0 flex-col gap-3">
+                  {contactCards.map((c, i) => (
+                    <ContactCard key={c.title} c={c} index={i} compact stretch />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
