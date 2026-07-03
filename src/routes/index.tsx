@@ -665,7 +665,7 @@ function Index() {
               </div>
             </div>
 
-            <div className="mx-auto hidden w-full max-w-[42rem] md:grid md:grid-cols-2 md:items-stretch md:gap-5">
+            <div className="mx-auto hidden w-full max-w-4xl md:grid md:grid-cols-[minmax(0,26rem)_minmax(0,24rem)] md:items-stretch md:justify-center md:gap-7 lg:gap-8">
               <Reveal className="h-full">
                 <div className="panel-glass flex h-full flex-col rounded-2xl p-5 text-left">
                   <p className="text-sm font-semibold text-white">Darmowa wycena</p>
