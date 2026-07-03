@@ -18,18 +18,20 @@ export const Route = createFileRoute("/polityka-prywatnosci")({
 
 function PolitykaPrywatnosci() {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-background/80 backdrop-blur">
+    <div className="page-shell relative min-h-screen">
+      <div className="page-ambient-scatter" aria-hidden />
+      <div className="page-content">
+      <header className="border-b border-white/10 bg-background/80 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-4">
           <Link to="/" className="flex items-center gap-2 font-bold text-foreground">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-teal text-white">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-accent text-white shadow-glow">
               <Snowflake className="h-5 w-5" />
             </div>
             {SITE_NAME}
           </Link>
           <Link
             to="/"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-smooth hover:text-foreground"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-smooth hover:text-brand-cyan"
           >
             <ArrowLeft className="h-4 w-4" />
             Strona główna
@@ -48,7 +50,7 @@ function PolitykaPrywatnosci() {
               Administratorem danych osobowych jest {COMPANY_LEGAL_NAME} (dalej: „Administrator”), prowadząca
               działalność pod marką {SITE_NAME}, z siedzibą: {ADDRESS}, NIP: {NIP}, REGON: {REGON}. W sprawach
               związanych z ochroną danych można kontaktować się pod adresem e-mail:{" "}
-              <a href={`mailto:${EMAIL}`} className="text-accent underline hover:text-foreground">
+              <a href={`mailto:${EMAIL}`} className="text-brand-cyan underline hover:text-foreground">
                 {EMAIL}
               </a>{" "}
               lub telefonicznie: {PHONE_DISPLAY}.
@@ -122,6 +124,7 @@ function PolitykaPrywatnosci() {
 
         <p className="mt-10 text-xs text-muted-foreground">{SITE_TITLE}</p>
       </main>
+      </div>
     </div>
   );
 }

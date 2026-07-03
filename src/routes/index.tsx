@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { toast } from "sonner";
 import {
   Phone,
@@ -158,7 +158,7 @@ function HeroGoogleRating({
         ))}
       </div>
       <span className="font-semibold text-white">{rating.toFixed(1)}</span>
-      <span className="text-white/55">· {reviewCount} opinii Google</span>
+      <span className="text-white/65">· {reviewCount} opinii Google</span>
     </a>
   );
 }
@@ -167,7 +167,7 @@ function CTAButton({ className = "" }: { className?: string }) {
   return (
     <a
       href={PHONE_HREF}
-      className={`inline-flex items-center justify-center gap-2.5 rounded-full bg-brand-teal px-6 py-3.5 text-sm font-semibold text-white shadow-cool hover:bg-brand-teal/90 active:scale-[0.98] transition-smooth md:px-10 md:py-4 md:text-lg ${className}`}
+      className={`btn-cta px-6 py-3.5 text-sm md:px-10 md:py-4 md:text-lg ${className}`}
     >
       <Phone className="h-5 w-5 shrink-0 md:h-6 md:w-6" />
       <span>Zadzwoń · {PHONE_DISPLAY}</span>
@@ -175,28 +175,17 @@ function CTAButton({ className = "" }: { className?: string }) {
   );
 }
 
-function LeadForm({ variant = "light" }: { variant?: "light" | "dark" }) {
+function LeadForm() {
   const [service, setService] = useState("");
 
-  const isDark = variant === "dark";
+  const inputClass =
+    "h-11 w-full rounded-lg border border-white/20 bg-white/10 px-3.5 text-sm text-white placeholder:text-white/50 outline-none transition-smooth focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/25";
 
-  const inputClass = isDark
-    ? "h-11 w-full rounded-lg border border-white/20 bg-white/10 px-3.5 text-sm text-white placeholder:text-white/45 outline-none transition-smooth focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/25"
-    : "h-11 w-full rounded-lg border border-input bg-background px-3.5 text-sm outline-none transition-smooth focus:border-accent focus:ring-2 focus:ring-accent/20";
-
-  const labelClass = isDark ? "text-xs font-medium text-white/75" : "text-xs font-medium text-foreground/80";
+  const labelClass = "text-xs font-medium text-white/85";
 
   const selectTriggerClass = cn(
-    "h-11 w-full rounded-lg text-sm shadow-none focus:ring-2",
-    isDark
-      ? "border-white/20 bg-white/10 text-white focus:border-brand-cyan focus:ring-brand-cyan/25 data-[placeholder]:text-white/45"
-      : "border-input bg-background focus:border-accent focus:ring-accent/20 data-[placeholder]:text-muted-foreground",
+    "h-11 w-full rounded-lg border-white/20 bg-white/10 text-sm text-white shadow-none focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/25 data-[placeholder]:text-white/50",
   );
-
-  const consentTextClass = isDark ? "text-white/60" : "text-muted-foreground";
-  const consentLinkClass = isDark
-    ? "text-brand-cyan underline underline-offset-2 hover:text-white"
-    : "text-accent underline underline-offset-2 hover:text-foreground";
 
   return (
     <form
@@ -224,7 +213,7 @@ function LeadForm({ variant = "light" }: { variant?: "light" | "dark" }) {
       </div>
       <div className="grid gap-1.5">
         <Label htmlFor="lead-service" className={labelClass}>
-          Rodzaj usługi <span className={isDark ? "text-white/40" : "text-muted-foreground"}>(opcjonalnie)</span>
+          Rodzaj usługi <span className="text-white/50">(opcjonalnie)</span>
         </Label>
         <input type="hidden" name="service" value={service} />
         <Select value={service || undefined} onValueChange={setService}>
@@ -245,25 +234,22 @@ function LeadForm({ variant = "light" }: { variant?: "light" | "dark" }) {
           </SelectContent>
         </Select>
       </div>
-      <label className={`flex cursor-pointer items-start gap-2.5 text-xs leading-snug ${consentTextClass}`}>
+      <label className="flex cursor-pointer items-start gap-2.5 text-xs leading-snug text-white/75">
         <input
           required
           type="checkbox"
           name="rodo"
-          className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-input accent-[var(--brand-teal)]"
+          className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-white/30 accent-[var(--cta)]"
         />
         <span>
           Akceptuję{" "}
-          <Link to="/polityka-prywatnosci" className={consentLinkClass}>
+          <Link to="/polityka-prywatnosci" className="text-brand-cyan underline underline-offset-2 hover:text-white">
             Politykę Prywatności
           </Link>{" "}
           i wyrażam zgodę na kontakt w sprawie wyceny (RODO).
         </span>
       </label>
-      <button
-        type="submit"
-        className="h-11 rounded-full bg-brand-teal text-sm font-semibold text-white shadow-cool transition-smooth hover:bg-brand-teal/90 active:scale-[0.98]"
-      >
+      <button type="submit" className="btn-cta h-11 w-full text-sm">
         Wyślij zapytanie
       </button>
     </form>
@@ -278,13 +264,13 @@ function ServiceCard({ s, index }: { s: (typeof services)[number]; index: number
     <div
       ref={ref}
       className={cn(
-        "group relative h-full overflow-hidden rounded-xl border border-border/80 bg-background p-5 text-left transition-smooth md:hover:-translate-y-0.5 md:hover:border-brand-teal/30 md:hover:shadow-card",
+        "card-glass group relative h-full overflow-hidden rounded-xl p-5 text-left transition-smooth md:hover:-translate-y-0.5 md:hover:border-brand-cyan/25 md:hover:shadow-glow",
         revealClass,
       )}
       style={{ transitionDelay: `${index * 80}ms` }}
     >
-      <span className="absolute right-4 top-4 text-xs font-semibold tabular-nums text-muted-foreground/40">{num}</span>
-      <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-muted/50 text-accent transition-smooth group-hover:scale-110 group-hover:border-brand-teal/20 group-hover:bg-accent/5 group-hover:text-brand-teal">
+      <span className="absolute right-4 top-4 text-xs font-semibold tabular-nums text-white/25">{num}</span>
+      <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/8 text-brand-cyan transition-smooth group-hover:scale-110 group-hover:border-brand-cyan/30 group-hover:bg-brand-cyan/10">
         <Icon className="h-5 w-5" />
       </div>
       <h3 className="pr-8 text-base font-semibold text-foreground">{s.title}</h3>
@@ -299,7 +285,7 @@ function GalleryCard({ g, index = 0 }: { g: (typeof gallery)[number]; index?: nu
     <div
       ref={ref}
       className={cn(
-        "group relative aspect-[4/3] overflow-hidden rounded-xl border border-white/10 bg-brand-deep shadow-card ring-1 ring-white/5 transition-smooth md:hover:-translate-y-0.5 md:hover:shadow-glow",
+        "group relative aspect-[4/3] overflow-hidden rounded-xl border border-white/15 bg-brand-deep shadow-card ring-1 ring-white/10 transition-smooth md:hover:-translate-y-0.5 md:hover:border-brand-cyan/30 md:hover:shadow-glow",
         revealClass,
       )}
       style={{ transitionDelay: `${index * 90}ms` }}
@@ -307,11 +293,15 @@ function GalleryCard({ g, index = 0 }: { g: (typeof gallery)[number]; index?: nu
       <img
         src={g.image}
         alt={g.alt}
-        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+        className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
         loading="lazy"
         decoding="async"
         width={800}
         height={600}
+      />
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        aria-hidden
       />
     </div>
   );
@@ -324,29 +314,49 @@ const contactCards = [
   { type: "hours", icon: Clock, title: "Godziny", value: HOURS, href: null as string | null },
 ];
 
-function ContactCard({ c, index = 0 }: { c: (typeof contactCards)[number]; index?: number }) {
+function ContactCard({
+  c,
+  index = 0,
+  compact = false,
+  stretch = false,
+}: {
+  c: (typeof contactCards)[number];
+  index?: number;
+  compact?: boolean;
+  stretch?: boolean;
+}) {
   const Icon = c.icon;
   const { ref, className: revealClass } = useReveal<HTMLDivElement>();
+  const isPhone = c.type === "phone";
   const inner = (
     <div
       ref={ref}
       className={cn(
-        "flex h-full min-w-0 items-center gap-4 rounded-xl border border-dashed border-border bg-muted/30 p-4 text-left transition-smooth hover:border-accent/30 hover:bg-muted/50 md:hover:-translate-y-0.5 md:hover:shadow-card",
+        "card-glass flex min-w-0 items-center text-left transition-smooth md:hover:-translate-y-0.5 md:hover:border-brand-cyan/20",
+        stretch ? "h-full flex-1" : "h-full",
+        compact ? "gap-3 rounded-lg p-3.5" : "gap-4 rounded-xl p-4",
+        isPhone && "border-brand-cyan/15 bg-brand-cyan/[0.04]",
         revealClass,
       )}
       style={{ transitionDelay: `${index * 80}ms` }}
     >
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-background text-accent shadow-card transition-smooth group-hover:scale-105 group-hover:text-brand-teal">
-        <Icon className="h-5 w-5" />
+      <div
+        className={cn(
+          "flex shrink-0 items-center justify-center rounded-full border border-white/8 bg-white/6 text-brand-cyan transition-smooth group-hover:scale-105",
+          compact ? "h-10 w-10" : "h-11 w-11",
+          isPhone && "border-brand-cyan/20 bg-brand-cyan/8",
+        )}
+      >
+        <Icon className={compact ? "h-[1.125rem] w-[1.125rem]" : "h-5 w-5"} />
       </div>
       <div className="min-w-0">
         <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{c.title}</p>
         <p
-          className={
-            c.type === "email"
-              ? "mt-0.5 text-sm font-semibold leading-snug text-foreground break-all"
-              : "mt-0.5 text-sm font-semibold text-foreground break-words"
-          }
+          className={cn(
+            "mt-0.5 font-semibold text-foreground leading-snug",
+            compact ? "text-base" : "text-sm",
+            c.type === "email" ? "break-all leading-snug" : "break-words",
+          )}
         >
           {c.value}
         </p>
@@ -358,12 +368,12 @@ function ContactCard({ c, index = 0 }: { c: (typeof contactCards)[number]; index
       href={c.href}
       target={c.type === "address" ? "_blank" : undefined}
       rel="noreferrer"
-      className="group block h-full min-w-0"
+      className={cn("group block min-w-0", stretch ? "flex min-h-0 flex-1 flex-col" : "h-full")}
     >
       {inner}
     </a>
   ) : (
-    inner
+    <div className={cn(stretch && "flex min-h-0 flex-1 flex-col")}>{inner}</div>
   );
 }
 
@@ -381,10 +391,8 @@ function SiteHeader() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b backdrop-blur-xl transition-smooth",
-        scrolled
-          ? "border-border bg-background/90 shadow-card"
-          : "border-border/60 bg-background/70",
+        "sticky top-0 z-50 border-b border-white/10 backdrop-blur-xl transition-smooth",
+        scrolled ? "bg-background/80 shadow-card" : "bg-background/60",
       )}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4">
@@ -393,7 +401,7 @@ function SiteHeader() {
           className="flex items-center gap-2"
           onClick={() => setMenuOpen(false)}
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-teal text-white">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-accent text-white shadow-glow">
             <Snowflake className="h-5 w-5" />
           </div>
           <span className="font-bold tracking-tight text-foreground">{SITE_NAME}</span>
@@ -404,7 +412,7 @@ function SiteHeader() {
             <a
               key={link.href}
               href={link.href}
-              className="text-foreground transition-smooth hover:text-accent hover:underline hover:underline-offset-4"
+              className="text-muted-foreground transition-smooth hover:text-brand-cyan hover:underline hover:underline-offset-4"
             >
               {link.label}
             </a>
@@ -414,14 +422,14 @@ function SiteHeader() {
         <div className="flex items-center gap-2">
           <a
             href={PHONE_HREF}
-            className="hidden md:inline-flex items-center gap-2 rounded-full bg-brand-teal px-5 py-2.5 text-sm font-semibold text-white shadow-cool transition-smooth hover:bg-brand-teal/90 active:scale-[0.98]"
+            className="btn-cta max-md:!hidden md:inline-flex px-5 py-2.5 text-sm"
           >
             <Phone className="h-4 w-4" /> Zadzwoń
           </a>
           <button
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
-            className="inline-flex rounded-full p-2 text-foreground transition-smooth hover:bg-muted md:hidden"
+            className="inline-flex rounded-full p-2 text-foreground transition-smooth hover:bg-white/10 md:hidden"
             aria-expanded={menuOpen}
             aria-label={menuOpen ? "Zamknij menu" : "Otwórz menu"}
           >
@@ -431,25 +439,18 @@ function SiteHeader() {
       </div>
 
       {menuOpen && (
-        <div className="border-b border-border bg-background/95 backdrop-blur-xl animate-fade-in md:hidden">
+        <div className="animate-fade-in border-b border-white/10 bg-background/98 backdrop-blur-xl md:hidden">
           <nav className="mx-auto flex max-w-6xl flex-col px-4 py-4 text-left">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="border-b border-border/50 py-3 text-base font-semibold text-foreground transition-smooth last:border-0 hover:text-accent"
+                className="border-b border-white/10 py-3 text-base font-semibold text-foreground transition-smooth last:border-0 hover:text-brand-cyan"
               >
                 {link.label}
               </a>
             ))}
-            <a
-              href={PHONE_HREF}
-              onClick={() => setMenuOpen(false)}
-              className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-brand-teal py-3 text-sm font-semibold text-white shadow-cool transition-smooth hover:bg-brand-teal/90"
-            >
-              <Phone className="h-4 w-4" /> Zadzwoń teraz
-            </a>
           </nav>
         </div>
       )}
@@ -461,21 +462,25 @@ function Index() {
   const { googleReviews } = Route.useLoaderData();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="page-shell">
+      <div className="page-ambient-scatter" aria-hidden />
+      <div className="page-content">
       <SiteHeader />
 
-      <section
-        id="top"
-        className="relative scroll-mt-24 overflow-hidden bg-gradient-hero px-4 pt-6 pb-12 text-primary-foreground max-md:min-h-[36rem] md:min-h-[34rem] md:pt-12 md:pb-20"
-      >
-        <div
-          className="hero-photo"
-          style={{ backgroundImage: `url(${heroImage})` }}
-          role="img"
-          aria-label=""
-        />
-        <div className="hero-photo-scrim" aria-hidden />
-        <div className="relative z-10 mx-auto max-w-6xl md:grid md:grid-cols-2 md:gap-12 md:items-center">
+      <div className="hero-services-unit">
+        <div className="hero-services-bg" aria-hidden>
+          <div
+            className="hero-photo"
+            style={{ backgroundImage: `url(${heroImage})` }}
+          />
+          <div className="hero-photo-scrim" />
+        </div>
+
+        <section
+          id="top"
+          className="relative z-10 scroll-mt-24 px-4 pt-6 pb-12 text-foreground max-md:min-h-[36rem] md:min-h-[34rem] md:pt-12 md:pb-16"
+        >
+        <div className="relative mx-auto max-w-6xl md:grid md:grid-cols-2 md:gap-12 md:items-center">
           <div className="flex flex-col items-center text-center md:items-start md:text-left">
             <span className="hero-enter hero-enter-delay-0 inline-flex w-fit max-w-full shrink-0 items-center gap-1.5 rounded-full border border-white/15 bg-white/8 px-3 py-1 text-xs font-medium leading-none text-white/90 backdrop-blur-sm md:px-3.5 md:py-1.5 md:text-sm">
               <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-brand-cyan" aria-hidden />
@@ -488,7 +493,7 @@ function Index() {
               klimatyzacji
             </h1>
 
-            <p className="hero-enter hero-enter-delay-2 mt-2 text-xl font-medium text-white/75 md:mt-2 md:text-2xl">
+            <p className="hero-enter hero-enter-delay-2 mt-2 text-xl font-medium text-white/85 md:mt-2 md:text-2xl">
               {SITE_CITY}
             </p>
 
@@ -502,7 +507,7 @@ function Index() {
 
             <ul className="hero-enter hero-enter-delay-4 mt-4 hidden max-w-md space-y-2 md:block">
               {HERO_BULLETS.map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-sm leading-snug text-white/75 md:text-base">
+                <li key={item} className="flex items-start gap-2.5 text-sm leading-snug text-white/85 md:text-base">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-cyan" aria-hidden />
                   {item}
                 </li>
@@ -526,12 +531,12 @@ function Index() {
             </ul>
           </div>
 
-          <div className="hero-enter hero-enter-delay-7 mt-5 w-full rounded-2xl border border-white/15 bg-white/10 p-5 text-center shadow-glow ring-1 ring-white/10 backdrop-blur-md max-md:[&_form]:text-left md:mt-0 md:text-left">
+          <div className="hero-enter hero-enter-delay-7 panel-glass mt-5 w-full rounded-2xl p-5 text-center max-md:[&_form]:text-left md:mt-0 md:text-left">
             <p className="text-sm font-semibold text-white md:hidden">Bezpłatna wycena — zostaw numer</p>
             <p className="hidden text-sm font-semibold text-white md:block">Oddzwonimy do Ciebie</p>
-            <p className="mt-1 hidden text-xs text-white/65 md:block">Zostaw numer — oddzwonimy bez zobowiązań.</p>
+            <p className="mt-1 hidden text-xs text-white/75 md:block">Zostaw numer — oddzwonimy bez zobowiązań.</p>
             <div className="mt-4">
-              <LeadForm variant="dark" />
+              <LeadForm />
             </div>
           </div>
 
@@ -543,22 +548,23 @@ function Index() {
             />
           </div>
         </div>
-      </section>
+        </section>
 
-      {/* SERVICES */}
-      <Section
-        id="uslugi"
-        eyebrow="Usługi"
-        title="Nasze usługi"
-        subtitle="Montaż split i multi-split w domach, mieszkaniach i biurach."
-      >
-        <MobileCarousel items={services} renderItem={(s) => <ServiceCard s={s} index={services.indexOf(s)} />} />
-        <div className="hidden md:grid grid-cols-3 gap-5">
-          {services.map((s, i) => (
-            <ServiceCard key={s.title} s={s} index={i} />
-          ))}
-        </div>
-      </Section>
+        <Section
+          id="uslugi"
+          eyebrow="Usługi"
+          title="Nasze usługi"
+          subtitle="Montaż split i multi-split w domach, mieszkaniach i biurach."
+          glow={{ x: "22%", y: "58%", strength: 0.035 }}
+        >
+          <MobileCarousel dark items={services} renderItem={(s) => <ServiceCard s={s} index={services.indexOf(s)} />} />
+          <div className="hidden md:grid grid-cols-3 gap-5">
+            {services.map((s, i) => (
+              <ServiceCard key={s.title} s={s} index={i} />
+            ))}
+          </div>
+        </Section>
+      </div>
 
       <HowItWorks />
 
@@ -568,6 +574,7 @@ function Index() {
         eyebrow="Opinie Google"
         title="Opinie klientów"
         subtitle="Sprawdzone recenzje z profilu Google Maps — możesz je zweryfikować jednym kliknięciem."
+        glow={{ x: "78%", y: "36%", cyan: true }}
       >
         <GoogleReviewsSection data={googleReviews} />
       </Section>
@@ -575,10 +582,11 @@ function Index() {
       {/* GALLERY */}
       <Section
         id="realizacje"
+        panel
         eyebrow="Portfolio"
         title="Nasze realizacje"
         subtitle="Wybrane montaże w Twojej okolicy."
-        dark
+        glow={{ x: "44%", y: "48%" }}
       >
         <MobileCarousel dark items={gallery} renderItem={(g) => <GalleryCard g={g} />} />
         <div className="hidden md:grid grid-cols-3 gap-5">
@@ -596,11 +604,13 @@ function Index() {
         subtitle="Wszystko, co warto wiedzieć przed montażem."
       >
         <Reveal>
-          <div className="mx-auto max-w-3xl">
+          <div className="card-glass mx-auto max-w-3xl rounded-xl px-2 md:px-4">
             <Accordion type="single" collapsible className="w-full text-left">
             {faqs.map((f, i) => (
-              <AccordionItem key={i} value={`item-${i}`}>
-                <AccordionTrigger className="text-left text-base font-semibold">{f.q}</AccordionTrigger>
+              <AccordionItem key={i} value={`item-${i}`} className="border-white/10 px-2">
+                <AccordionTrigger className="text-left text-base font-semibold text-foreground hover:text-brand-cyan hover:no-underline">
+                  {f.q}
+                </AccordionTrigger>
                 <AccordionContent className="text-sm leading-relaxed text-muted-foreground md:text-base">{f.a}</AccordionContent>
               </AccordionItem>
             ))}
@@ -609,54 +619,84 @@ function Index() {
         </Reveal>
       </Section>
 
-      {/* FINAL CTA */}
+      {/* KONTAKT + WYCENA */}
       <section
-        id="wycena"
-        className="relative scroll-mt-24 overflow-hidden bg-brand-deep px-4 pt-10 pb-14 md:pt-14 md:pb-20"
+        id="kontakt"
+        className="relative scroll-mt-24 overflow-hidden px-4 pt-10 pb-14 text-foreground md:pt-16 md:pb-20"
       >
         <div
-          className="pointer-events-none absolute inset-0 opacity-60"
-          style={{ background: "var(--gradient-radial)" }}
+          className="section-glow section-glow--cyan pointer-events-none"
+          style={{ "--glow-x": "16%", "--glow-y": "55%", "--glow-strength": "0.05" } as CSSProperties}
+          aria-hidden
         />
-        <Reveal className="relative mx-auto max-w-3xl text-center text-primary-foreground">
-          <p className="section-eyebrow text-brand-cyan">Darmowa wycena</p>
-          <h2 className="mt-1.5 text-2xl font-bold tracking-tight md:text-4xl">Potrzebujesz klimatyzacji?</h2>
-          <div className="mx-auto mt-8 max-w-md rounded-2xl border border-white/15 bg-white/10 p-5 shadow-cool backdrop-blur-md max-md:text-center md:text-left max-md:[&_form]:text-left">
-            <p className="text-sm font-semibold text-white">Wolisz oddzwonienie?</p>
-            <p className="mt-1 text-xs text-white/70">Oddzwonimy do Ciebie.</p>
-            <div className="mt-4">
-              <LeadForm variant="dark" />
+        <div className="relative mx-auto max-w-6xl">
+          <Reveal className="mb-8 hidden text-center md:mb-10 md:block">
+            <p className="section-eyebrow">Kontakt</p>
+            <h2 className="mt-1.5 text-4xl font-bold tracking-tight text-foreground">Skontaktuj się z nami</h2>
+            <p className="mt-1.5 text-base leading-relaxed text-muted-foreground">
+              Zadzwoń, napisz na e-mail lub odwiedź nas — jesteśmy czynni Pn–Sob 8:00–18:00.
+            </p>
+          </Reveal>
+
+          <div id="wycena" className="scroll-mt-24">
+            <div className="panel-glass rounded-2xl p-5 md:hidden">
+              <Reveal className="text-center">
+                <p className="section-eyebrow">Kontakt</p>
+                <h2 className="mt-1.5 text-2xl font-bold tracking-tight text-white">Skontaktuj się z nami</h2>
+                <p className="mt-1.5 text-sm leading-relaxed text-white/75">
+                  Zadzwoń, napisz na e-mail lub odwiedź nas — jesteśmy czynni Pn–Sob 8:00–18:00.
+                </p>
+              </Reveal>
+
+              <Reveal delay={80} className="mt-6">
+                <p className="text-sm font-semibold text-white">Darmowa wycena</p>
+                <p className="mt-1 text-xs text-white/75">Zostaw numer — oddzwonimy bez zobowiązań.</p>
+                <div className="mt-4 [&_form]:text-left">
+                  <LeadForm />
+                </div>
+              </Reveal>
+
+              <div className="my-6 h-px bg-white/10" aria-hidden />
+
+              <div className="flex flex-col gap-3">
+                {contactCards.map((c, i) => (
+                  <ContactCard key={c.title} c={c} index={i} compact />
+                ))}
+              </div>
+            </div>
+
+            <div className="mx-auto hidden w-full max-w-[42rem] md:grid md:grid-cols-2 md:items-stretch md:gap-5">
+              <Reveal className="h-full">
+                <div className="panel-glass flex h-full flex-col rounded-2xl p-5 text-left">
+                  <p className="text-sm font-semibold text-white">Darmowa wycena</p>
+                  <p className="mt-1 text-xs text-white/75">Zostaw numer — oddzwonimy bez zobowiązań.</p>
+                  <div className="mt-4 flex flex-1 flex-col">
+                    <LeadForm />
+                  </div>
+                </div>
+              </Reveal>
+
+              <div className="flex h-full min-h-0 flex-col gap-3">
+                {contactCards.map((c, i) => (
+                  <ContactCard key={c.title} c={c} index={i} compact stretch />
+                ))}
+              </div>
             </div>
           </div>
-        </Reveal>
+        </div>
       </section>
 
-      {/* CONTACT */}
-      <Section
-        id="kontakt"
-        eyebrow="Kontakt"
-        title="Skontaktuj się z nami"
-        subtitle="Zadzwoń, napisz na e-mail lub odwiedź nas — jesteśmy czynni Pn–Sob 8:00–18:00."
-      >
-        <MobileCarousel items={contactCards} renderItem={(c) => <ContactCard c={c} />} />
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {contactCards.map((c, i) => (
-            <ContactCard key={c.title} c={c} index={i} />
-          ))}
-        </div>
-      </Section>
-
       {/* FOOTER */}
-      <footer className="border-t border-white/10 bg-brand-deep px-4 pt-8 pb-24 text-primary-foreground md:pb-8">
-        <div className="mx-auto max-w-6xl text-center text-sm text-white/70">
-          <p className="font-bold text-white">{SITE_NAME} — Klimatyzacja i Serwis</p>
+      <footer className="relative px-4 pt-10 pb-24 text-foreground md:pb-8">
+        <div className="mx-auto max-w-6xl text-center text-sm text-muted-foreground">
+          <p className="font-bold text-foreground">{SITE_NAME} — Klimatyzacja i Serwis</p>
           <p className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-            <a href={PHONE_HREF} className="inline-flex items-center gap-1.5 transition-smooth hover:text-white">
+            <a href={PHONE_HREF} className="inline-flex items-center gap-1.5 transition-smooth hover:text-foreground">
               <Phone className="h-3.5 w-3.5" /> {PHONE_DISPLAY}
             </a>
             <a
               href={EMAIL_HREF}
-              className="inline-flex max-w-full items-center gap-1.5 break-all transition-smooth hover:text-white"
+              className="inline-flex max-w-full items-center gap-1.5 break-all transition-smooth hover:text-foreground"
             >
               <Mail className="h-3.5 w-3.5 shrink-0" /> {EMAIL}
             </a>
@@ -667,11 +707,11 @@ function Index() {
               <Clock className="h-3.5 w-3.5 shrink-0" /> {HOURS}
             </span>
           </p>
-          <p className="mt-3 text-xs text-white/50">NIP: {NIP}</p>
-          <p className="mt-4 text-xs text-white/50">
+          <p className="mt-3 text-xs text-white/45">NIP: {NIP}</p>
+          <p className="mt-4 text-xs text-white/45">
             <Link
               to="/polityka-prywatnosci"
-              className="underline underline-offset-2 transition-smooth hover:text-white"
+              className="underline underline-offset-2 transition-smooth hover:text-foreground"
             >
               Polityka Prywatności (RODO)
             </Link>
@@ -681,9 +721,18 @@ function Index() {
       </footer>
 
       <StickyCallBar />
+      </div>
     </div>
   );
 }
+
+type SectionGlow = {
+  x: string;
+  y: string;
+  cyan?: boolean;
+  strong?: boolean;
+  strength?: number;
+};
 
 function Section({
   id,
@@ -691,59 +740,84 @@ function Section({
   title,
   subtitle,
   children,
-  muted,
-  dark,
+  glow,
+  panel = false,
+  className,
 }: {
   id?: string;
   eyebrow?: string;
   title: string;
   subtitle?: string;
-  children: React.ReactNode;
-  muted?: boolean;
-  dark?: boolean;
+  children: ReactNode;
+  glow?: SectionGlow;
+  panel?: boolean;
+  className?: string;
 }) {
+  const glowStyle = glow
+    ? ({
+        "--glow-x": glow.x,
+        "--glow-y": glow.y,
+        ...(glow.strength != null ? { "--glow-strength": String(glow.strength) } : {}),
+      } as CSSProperties)
+    : undefined;
+
+  const header = (
+    <Reveal className={`text-center ${eyebrow ? "mb-6 md:mb-10" : "mb-8 md:mb-12"}`}>
+      {eyebrow && <p className="section-eyebrow">{eyebrow}</p>}
+      <h2
+        className={cn(
+          "text-2xl font-bold tracking-tight md:text-4xl",
+          panel ? "text-white" : "text-foreground",
+          eyebrow && "mt-1.5",
+        )}
+      >
+        {title}
+      </h2>
+      {subtitle && (
+        <p
+          className={cn(
+            "text-sm leading-relaxed md:text-base",
+            panel ? "text-white/75" : "text-muted-foreground",
+            eyebrow ? "mt-1.5" : "mt-2",
+          )}
+        >
+          {subtitle}
+        </p>
+      )}
+    </Reveal>
+  );
+
   return (
     <section
       id={id}
-      className={`relative scroll-mt-24 overflow-hidden px-4 pt-10 pb-14 md:pt-16 md:pb-20 ${
-        dark
-          ? "bg-brand-deep text-primary-foreground"
-          : muted
-            ? "bg-gradient-cool"
-            : ""
-      }`}
+      className={cn(
+        "relative scroll-mt-24 overflow-hidden px-4 pt-10 pb-14 text-foreground md:pt-16 md:pb-20",
+        className,
+      )}
     >
-      {dark && (
+      {glow && (
         <div
-          className="pointer-events-none absolute inset-0 opacity-50"
-          style={{ background: "var(--gradient-radial)" }}
+          className={cn(
+            "section-glow",
+            glow.cyan && "section-glow--cyan",
+            glow.strong && "section-glow--strong",
+          )}
+          style={glowStyle}
+          aria-hidden
         />
       )}
       <div className="relative mx-auto max-w-6xl">
-        <Reveal className={`text-center ${eyebrow ? "mb-6 md:mb-10" : "mb-8 md:mb-12"}`}>
-          {eyebrow && (
-            <p className="section-eyebrow">
-              {eyebrow}
-            </p>
-          )}
-          <h2
-            className={`text-2xl font-bold tracking-tight md:text-4xl ${
-              eyebrow ? "mt-1.5" : ""
-            } ${dark ? "text-white" : "text-foreground"}`}
-          >
-            {title}
-          </h2>
-          {subtitle && (
-            <p
-              className={`text-sm leading-relaxed md:text-base ${
-                eyebrow ? "mt-1.5" : "mt-2"
-              } ${dark ? "text-white/70" : "text-muted-foreground"}`}
-            >
-              {subtitle}
-            </p>
-          )}
-        </Reveal>
-        {children}
+        {panel ? (
+          <div className="panel-glass rounded-2xl p-5 text-center md:p-8 lg:p-10">
+            {header}
+            {children}
+          </div>
+        ) : (
+          <>
+            {header}
+            {children}
+          </>
+        )}
       </div>
     </section>
   );

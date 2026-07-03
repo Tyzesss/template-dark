@@ -17,7 +17,8 @@ export function StickyCallBar() {
   return (
     <div
       className={cn(
-        "fixed left-4 right-4 z-50 flex gap-3 rounded-2xl border border-white/10 bg-brand-deep/95 p-3 shadow-cool backdrop-blur-xl transition-all duration-500 ease-out md:hidden",
+        "relative fixed left-4 right-4 z-50 flex gap-3 rounded-2xl border border-white/15 bg-background/95 p-3 shadow-cool backdrop-blur-xl transition-all duration-500 ease-out md:hidden",
+        "before:pointer-events-none before:absolute before:inset-x-4 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-brand-cyan/40 before:to-transparent",
         show ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-24 opacity-0",
       )}
       style={{ bottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" }}
@@ -31,7 +32,7 @@ export function StickyCallBar() {
       </a>
       <a
         href={PHONE_HREF}
-        className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-brand-teal py-3 text-sm font-semibold text-white transition-smooth hover:bg-brand-teal/90 active:scale-[0.98]"
+        className="btn-cta flex-1 py-3 text-sm"
       >
         <Phone className="h-4 w-4" />
         Zadzwoń teraz
